@@ -1,0 +1,55 @@
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .logoPic{
+    width: 5em;
+  }
+
+  .logo{
+    margin-left: 1rem;
+  }
+
+  .nav{
+    margin-right: 1rem;
+    font-size: 1.5rem;
+
+    a:hover{
+      border-bottom: 2px solid black;  
+    }
+  }
+}
+
+.hero{
+  font-family: 'Cormorant Garamond', serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 90vh;
+
+  .mainText{
+    font-size: 2.5rem;
+    width: 60%;
+    margin: 0;
+  }
+
+  h2{
+    margin: 1rem;
+  }
+
+  input{
+    border: black 2px solid;
+    width: 30rem;
+    height: 3.5rem;
+    font-size: 1rem;
+    padding: 0.8rem;
+    font-weight: bold;
+  }
+
+  .seeMore{
+    cursor: pointer;
+  }
+
+}
