@@ -7,9 +7,10 @@ class UserProfile(AbstractUser, PermissionsMixin ):
     username = None
     email = models.EmailField('Email', unique=True)
     name = models.CharField(max_length=120)
+    bio = models.TextField(default="No bio")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
+    password2 = models.CharField(max_length=120, blank=True)
 
     objects = UserProfileManager()
 
