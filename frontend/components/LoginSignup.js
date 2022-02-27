@@ -6,11 +6,23 @@ import { LoginContext } from '../pages';
 import { loginSchema, registerSchema } from '../validations/loginValidation';
 import * as yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { register } from '../lib/axios/request';
+import axios from "axios";
+import { useSelector, useDispatch } from 'react-redux';
+import { loginActionFailed, loginActionReq, loginActionSucess, registerActionFailed, registerActionRequest, registerActionSuccess } from '../redux/reduxUtils/actions';
+import Popup from 'reactjs-popup';
+
 
 
 export function LoginForm(){
 
     const {isLogin, setIsLogin} = useContext(LoginContext)
+
+    const loading = useSelector(state => state.login.isLoading)
+    // const response = useSelector(state => state.login.response)
+    const error = useSelector(state => state.login.error)
+
+    const dispatch = useDispatch()
 
     const initValues = {
         email: '',
@@ -18,15 +30,24 @@ export function LoginForm(){
 
     }
 
-    const handleSubmit = async (values) => {
+    const login = async (values) => {
+        dispatch(loginActionReq())
+        const endpoint = 'http://localhost:8000/auth/login/'
+        await axios.post(endpoint,{
+            email: values.email,
+            password: values.password,
+        }).then(response => {
+                 dispatch(loginActionSucess(response.data))
+        }).catch(error => {
+            dispatch(loginActionFailed(error.message))
 
-        console.log(values)
+        })
+    
     }
 
     return(
 
         <div className={styles.container}>
-
         <div className={styles.login}>
             <button className={styles.close} onClick={() => setIsLogin(null)}>
                 <Icon icon="bi:x-lg" width="32"  />
@@ -36,11 +57,16 @@ export function LoginForm(){
             </h1>
             <Formik
             initialValues={initValues}
-            onSubmit={handleSubmit}
+            onSubmit={login}
             validationSchema={loginSchema}
             >
-
-            <Form className={styles.loginForm} onSubmit={handleSubmit}>
+            {
+                loading ? 
+                <div>
+                    Logging in...
+                </div>
+                :
+                <Form className={styles.loginForm}>
 
                 <div>
                 <label>Email</label>
@@ -64,6 +90,7 @@ export function LoginForm(){
             <Link href="forgetpassword">Forget password?</Link>
             <button  type="submit" className={styles.loginButton} >Sign-in</button>
             </Form>
+            }
                 </Formik>
             <Link className={styles.linkToRegister} href="register" passHref>Don&apos;t have an account? Login!</Link>
         </div>
@@ -78,6 +105,13 @@ export function RegisterForm(){
     const {isLogin, setIsLogin} = useContext(LoginContext) //maintain the close button
 
 
+
+    const loading = useSelector(state => state.login.isLoading)
+    const response = useSelector(state => state.login.response)
+    const error = useSelector(state => state.login.error)
+    
+    const dispatch = useDispatch()
+
     const initValues = {
         name: '',
         email: '',
@@ -85,10 +119,24 @@ export function RegisterForm(){
         password2: '',
     }
 
-    const handleSubmit = (values) => {
-        console.log(values)
+    const register = async (values) => {
+        dispatch(registerActionRequest())
+        const endpoint = 'http://localhost:8000/auth/register/'
+        await axios.post(endpoint,{
+            name: values.name,
+            email: values.email,
+            password: values.password1,
+            password2: values.password2
+        }).then(response => {
+                 dispatch(registerActionSuccess(response.data))
+        }).catch(error => {
+            dispatch(registerActionFailed(error.message))
+
+        })
+    
     }
 
+ 
     return(
         <div className={styles.container}>
 
@@ -101,9 +149,14 @@ export function RegisterForm(){
             <Formik
             validationSchema={registerSchema}
             initialValues={initValues}
-            onSubmit={handleSubmit}
+            onSubmit={register}
             >
-
+            {
+                loading ? 
+                <div>
+                    Logging in...
+                </div>
+                :
             <Form className={styles.registerForm}>
                 <div>
                 <label>Name</label>
@@ -154,6 +207,8 @@ export function RegisterForm(){
                 </div>
             </div>
             </Form>
+            }
+
             </Formik>
 
             </div>

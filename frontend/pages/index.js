@@ -10,6 +10,7 @@ import {LoginForm, RegisterForm} from '../components/LoginSignup'
 // import { goLogin, goRegister } from '../redux/reduxUtils/actions';
 import store from '../redux/store';
 import { setLogin } from '../redux/reduxUtils/reducers'
+import { Provider } from 'react-redux'
 
 
 
@@ -22,7 +23,8 @@ export default function Home() {
 
 
   return (
-    
+    <Provider store={store}>
+
     <div className={styles.homeContainer}>
           <LoginContext.Provider value={{isLogin: isLogin, setIsLogin: setIsLogin}}>
       {
@@ -68,6 +70,7 @@ export default function Home() {
         </div>
       </main>
       </div>
+      </Provider>
 
   )
 }

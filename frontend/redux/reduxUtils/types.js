@@ -1,2 +1,10 @@
-export const SIGNUP = "register";
-export const SIGNIN = "login";
+
+export const REGISTER_REQUEST = 'REGISTER_POST'
+export const REGISTER_SUCESS = 'REGISTER_SUCESS'
+export const REGISTER_FAILED = 'REGISTER_FAILED'
+
+export const LOGIN_REQUEST = 'LOGIN_POST'
+export const LOGIN_SUCESS = 'LOGIN_SUCESS'
+export const LOGIN_FAILED = 'LOGIN_FAILED'
+
+

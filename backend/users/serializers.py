@@ -1,9 +1,9 @@
-from dataclasses import field, fields
-import email
-from pyexpat import model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from .models import UserProfile
+from rest_framework.response import Response
+from rest_framework import status
+
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -23,14 +23,17 @@ class UserCreateSerializer(serializers.ModelSerializer):
         if password != password2:
             raise serializers.ValidationError({'password': "Passwords doesn\'t match"})
         user.set_password(password)
-        user.save()
-        Token.objects.create(user=user)
-
+        if user is not None:
+            user.save()
         return user
+
+
+
 
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['name', 'email', 'pk']
+        fields = ['name', 'pk']
+
